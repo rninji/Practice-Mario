@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Coin
   - Spike
+  - Monster
+  - HitBox
   layers:
   - Default
   - TransparentFX

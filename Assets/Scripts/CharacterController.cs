@@ -101,6 +101,7 @@ public class CharacterController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
+        // 바닥 충돌 (점프 체크)
         if (other.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
@@ -108,10 +109,28 @@ public class CharacterController : MonoBehaviour
             Animator anim = GetComponent<Animator>();
             anim.SetBool("isJumping", false);
         }
-
+        // 장애물 충돌
         if (other.gameObject.CompareTag("Spike"))
         {
             state = PlayerState.Dead;
+        }
+        // 몬스터 충돌
+        if (other.gameObject.CompareTag("Monster"))
+        {
+            // 위에서 밟은 경우 공격
+            if (other.gameObject.transform.position.y + other.gameObject.transform.localScale.y * 0.7f < transform.position.y)
+            {
+                Animator anim = GetComponent<Animator>();
+                Destroy(other.gameObject);
+                anim.SetBool("isJumping", true);
+                state = PlayerState.Jumping;
+                characterRb.AddForceY(jumpPower, ForceMode2D.Impulse);
+            }
+            else
+            {
+                // 아래나 옆에서 충돌한 경우 피격
+                state = PlayerState.Dead;
+            }
         }
     }
 
