@@ -19,6 +19,12 @@ public class CharacterController : MonoBehaviour
 
     private bool isJumping = false;
 
+    private int coinScore = 0;
+
+    private int lifePoints = 3;
+    
+    public Vector2 startPosition;
+
     public enum PlayerState
     {
         Idle,
@@ -52,7 +58,17 @@ public class CharacterController : MonoBehaviour
 
     void UpdateDead()
     {
+        lifePoints--;
+        Debug.Log($"죽었습니다. 남은 생명 : {lifePoints}개");
         
+        if (lifePoints <= 0)
+        {
+            Debug.Log("Game Over");
+            lifePoints = 3;
+        }
+        transform.position = startPosition;
+        h = 0f;
+        state = PlayerState.Moving;
     }
     
     void Update()
@@ -85,14 +101,40 @@ public class CharacterController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground")) isJumping = false;
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("isJumping", false);
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+
+            Animator anim = GetComponent<Animator>();
+            anim.SetBool("isJumping", false);
+        }
+
+        if (other.gameObject.CompareTag("Spike"))
+        {
+            state = PlayerState.Dead;
+        }
     }
 
     void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground")) isJumping = true;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // 코인 획득
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            coinScore++;
+            Debug.Log($"코인 획득 : {coinScore}개");
+            Destroy(other.gameObject);
+        }
+        
+        // 최종 지점 도착
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            Debug.Log("Clear!!!");
+        }
     }
 
     void OnKeyboard()
