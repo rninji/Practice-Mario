@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private PlayerState state = PlayerState.Idle;
     
@@ -32,6 +32,8 @@ public class CharacterController : MonoBehaviour
         Jumping,
         Dead,
     }
+    
+    public 
 
     void UpdateIdle()
     {
