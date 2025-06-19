@@ -12,4 +12,15 @@ public class UIManager
             return root;
         }
     }
-
+    
+    // SceneUI 켜기
+    public UI_Scene ShowSceneUI<T>(string name = null)
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+        
+        GameObject go =  Managers.Resource.Instantiate($"UI/Scene/{name}", Root.transform);
+        UI_Scene scene = Util.GetOrAddComponent<UI_Scene>(go);
+        return scene;
+    }
+}
