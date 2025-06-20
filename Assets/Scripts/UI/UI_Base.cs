@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -79,5 +80,25 @@ public abstract class UI_Base : MonoBehaviour
                 evt.OnDragHandler += action;
                 break;
         }
+    }
+
+    public static void BindToggleEvent(GameObject go, UnityAction<bool> action)
+    {
+        Toggle toggle = Util.FindChild<Toggle>(go);
+        
+        if (toggle == null)
+            return;
+        
+        toggle.onValueChanged.AddListener(action);
+    }
+    
+    public static void BindSliderEvent(GameObject go, UnityAction<float> action)
+    {
+        Slider slider = Util.FindChild<Slider>(go);
+        
+        if (slider == null)
+            return;
+        
+        slider.onValueChanged.AddListener(action);
     }
 }

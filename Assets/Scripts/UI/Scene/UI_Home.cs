@@ -25,13 +25,12 @@ public class UI_Home : UI_Scene
 
     void OnClickStart(PointerEventData data)
     {
-        Debug.Log("Start");
-        // 매니저.씬.로드씬(셀렉트스테이지)
+        Managers.Scene.LoadScene(Define.Scene.StageSelect);
     }
 
     void OnClickSettings(PointerEventData data)
     {
-        Debug.Log("Settings");
+        Managers.UI.ShowPopupUI<UI_Settings>();
         // 세팅 팝업 켜기
     }
 

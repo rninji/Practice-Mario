@@ -7,6 +7,7 @@ public class HomeScene : BaseScene
 {
     public override void Init()
     {
+        base.Init();
         SceneType =  Define.Scene.Home;
 
         // UI 표시
